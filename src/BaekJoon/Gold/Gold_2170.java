@@ -5,7 +5,8 @@ import java.util.*;
 
 public class Gold_2170 {
     /*
-        G5 2170번 선 긋기
+        G5
+        2170번 선 긋기
         알고리즘 분류 : 정렬, 스위핑
      */
     static int N, res = 0, max = -1000000001;

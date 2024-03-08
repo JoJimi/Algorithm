@@ -5,7 +5,8 @@ import java.util.*;
 
 public class Gold_1744 {
     /*
-        G4 1744번 수 묶기
+        G4
+        1744번 수 묶기
         알고리즘 분류 : 그리디, 정렬, 많은 조건 분기
      */
     static int N, count = 0, count1 = 0;

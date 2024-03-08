@@ -5,7 +5,8 @@ import java.util.*;
 
 public class Silver_11048 {
     /*
-        S2 11048번 이동하기
+        S2
+        11048번 이동하기
         알고리즘 분류 : DP
      */
     static int N, M;
