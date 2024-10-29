@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int N, max = 0;
+    static int N, max = 1;
     static int[] arr;
 
     public static void main(String[] args) throws IOException {
