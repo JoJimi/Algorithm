@@ -29,7 +29,7 @@ public class Main {
         }
 
         for(int i = 0; i < 4; i++){
-            solution(0, 0, i);
+            solution(0, i);
         }
 
         System.out.println(-1);
@@ -51,24 +51,23 @@ public class Main {
 
             if(line != i) return false;
         }
-
         return true;
     }
 
-    public static void solution(int x, int count, int size){
-        if(count > 3) return;
+    public static void solution(int count, int size){
         if(count == size){
             if(check()){
                 System.out.println(count);
                 System.exit(0);
             }
+            return;
         }
 
-        for(int i = x; i < H; i++){
+        for(int i = 0; i < H; i++){
             for(int j = 0; j < N-1; j++){
                 if(ladder[i][j] == 0){
                     ladder[i][j] = 1;
-                    solution(i, count+1, size);
+                    solution(count+1, size);
                     ladder[i][j] = 0;
                 }
             }
