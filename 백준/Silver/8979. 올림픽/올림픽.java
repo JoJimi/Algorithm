@@ -44,17 +44,19 @@ public class Main {
         }
 
         int count = 0;
+        int currentRank = 1;
         int prevGold = -1, prevSilver = -1, prevBronze = -1;
 
         for(int i = 0; i < N; i++){
+            count++;
             int[] result = sortedList.get(i);
 
             if(prevGold == result[1] && prevSilver == result[2] && prevBronze == result[3]){
-                rank[result[0]] = count;
+                rank[result[0]] = currentRank;
             }
             else {
-                count++;
-                rank[result[0]] = count;
+                currentRank = count;
+                rank[result[0]] = currentRank;
             }
 
             prevGold = result[1];
