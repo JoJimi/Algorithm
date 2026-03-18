@@ -10,17 +10,8 @@ class Solution {
         double x1 = (-b + Math.sqrt(b*b - 4*c)) / 2;
         double x2 = (-b - Math.sqrt(b*b - 4*c)) / 2;
         
-        System.out.println(b + " " + c);
-        System.out.println(x1 + " " + x2);
-        
-        if(x1 > x2) {
-            answer[0] = (int)x1;
-            answer[1] = (int)x2;
-        }
-        else {
-            answer[1] = (int)x1;
-            answer[0] = (int)x2;
-        }
+        answer[0] = (int)Math.max(x1, x2);
+        answer[1] = (int)Math.min(x1, x2);
         
         return answer;
     }
