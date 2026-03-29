@@ -2,83 +2,50 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] fees, String[] records) {
-        List<String> cars = new ArrayList<>();
-        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> {
-            return o1[0] - o2[0];
-        });
+        Map<String, Integer> inTime = new HashMap<>();
+        Map<String, Integer> total = new HashMap<>();
         
-        for(int i = 0; i < records.length; i++) {
-            String[] record = records[i].split(" ");
+        for(String record : records) {
+            String[] r = record.split(" ");
             
-            if(checked(record[1], cars)) continue;
-            cars.add(record[1]);
+            String[] t = r[0].split(":");
+            int time = Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
             
-            List<Integer> timeList = new ArrayList<>();
-            for(int j = i; j < records.length; j++) {
-                String[] r = records[j].split(" ");
-                if(!record[1].equals(r[1])) continue;
-                
-                String[] t = r[0].split(":");
-                int time = Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
-                
-                timeList.add(time);
-            }
+            String car = r[1];
+            String type = r[2];
             
-            int total = 0;
-            if(timeList.size() % 2 == 1) {
-                for(int j = 0; j < timeList.size() - 1; j += 2) {
-                    int inTime = timeList.get(j);
-                    int outTime = timeList.get(j + 1);
-                    
-                    total += (outTime - inTime);
-                }
-                total += (1439 - timeList.get(timeList.size() - 1));
-                
-                if(total <= fees[0]) {
-                    pq.add(new int[]{Integer.parseInt(record[1]), fees[1]});
-                }
-                else {
-                    if((total - fees[0]) % fees[2] == 0) 
-                        pq.add(new int[]{Integer.parseInt(record[1]), fees[1] + ((total - fees[0]) / fees[2]) * fees[3]});
-                    else 
-                        pq.add(new int[]{Integer.parseInt(record[1]), fees[1] + ((total - fees[0]) / fees[2] + 1) * fees[3]});
-                }
+            if(type.equals("IN")) {
+                inTime.put(car, time);
             }
             else {
-                for(int j = 0; j < timeList.size(); j += 2) {
-                    int inTime = timeList.get(j);
-                    int outTime = timeList.get(j + 1);
-                    
-                    total += (outTime - inTime);
-                }
-                
-                if(total <= fees[0]){
-                    pq.add(new int[]{Integer.parseInt(record[1]), fees[1]});
-                } 
-                else {
-                    if((total - fees[0]) % fees[2] == 0) 
-                        pq.add(new int[]{Integer.parseInt(record[1]), fees[1] + ((total - fees[0]) / fees[2]) * fees[3]});
-                    else 
-                        pq.add(new int[]{Integer.parseInt(record[1]), fees[1] + ((total - fees[0]) / fees[2] + 1) * fees[3]});
-                }
+                int tt = inTime.remove(car);
+                total.put(car, total.getOrDefault(car, 0) + (time - tt));
             }
         }
+        
+        for(String str : inTime.keySet()) {
+            total.put(str, total.getOrDefault(str, 0) + (1439 - inTime.get(str)));
+        }
+        
+        List<String> cars = new ArrayList<>(total.keySet());
+        Collections.sort(cars);
+        
         int[] answer = new int[cars.size()];
         
-        System.out.println(pq.size());
-        
-        int i = 0;
-        while(!pq.isEmpty()) {
-            answer[i] = pq.poll()[1];
-            i++;
+        for(int i = 0; i < answer.length; i++){
+            int time = total.get(cars.get(i));
+            
+            if(time <= fees[0]) answer[i] = fees[1];
+            else {
+                if((time - fees[0]) % fees[2] == 0) {
+                    answer[i] = fees[1] + (time - fees[0]) / fees[2] * fees[3];
+                }
+                else {
+                    answer[i] = fees[1] + ((time - fees[0]) / fees[2] + 1) * fees[3];
+                }
+            }
         }
         
         return answer;
-    }
-    private boolean checked(String car, List<String> cars) {
-        for(int i = 0; i < cars.size(); i++) {
-            if(car.equals(cars.get(i))) return true;
-        }
-        return false;
     }
 }
