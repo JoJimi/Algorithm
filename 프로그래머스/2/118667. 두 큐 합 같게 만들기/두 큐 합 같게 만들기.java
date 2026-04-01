@@ -21,11 +21,7 @@ class Solution {
         
         long target = total / 2;
         
-        int left = 0;
-        int right = n;
-        int count = 0;
-        
-        int max = n*3;
+        int left = 0, right = n, count = 0, max = n*3;
         
         while(count <= max) {
             if(sum1 == target) return count;
