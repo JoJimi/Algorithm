@@ -9,24 +9,24 @@ class Solution {
         int result = sequence[0];
         int count = Integer.MAX_VALUE;
         
-        while(true){
+        while(true) {
             if(left > right) break;
             
-            if(result > k){
+            if(result > k) {
                 result -= sequence[left];
                 left++;
             }
             else {
-                if(result == k){
-                    if(count > right-left){
-                    count = right - left;
-                    answer[0] = left;
-                    answer[1] = right;
-                    }
+                if(result == k) {
+                    if(count > right - left){
+                        count = right - left;
+                        answer[0] = left;
+                        answer[1] = right;
+                    }                    
                 }
                 right++;
                 if(right == sequence.length) break;
-                result += sequence[right];
+                result += sequence[right];                
             }
         }
         
