@@ -1,41 +1,44 @@
 import java.util.*;
 
 class Solution {
+    static int count = Integer.MAX_VALUE;
+    static int[] dx = {0, 0, 1, -1};
+    static int[] dy = {1, -1, 0, 0};
+    
     public int solution(int[][] maps) {
+        bfs(maps);        
+        if(count == Integer.MAX_VALUE) count = -1;
+        return count;
+    }
+    public void bfs(int[][] maps){        
         int n = maps.length;
         int m = maps[0].length;
         
-        int[] dx = {0, 0, 1, -1};
-        int[] dy = {1, -1, 0, 0};
-        
-        int[][] distance = new int[n][m];
-        
+        boolean[][] visited = new boolean[n][m];
         Queue<int[]> q = new LinkedList<>();
-        
-        q.offer(new int[]{0, 0});
-        distance[0][0] = 1;
+        q.add(new int[]{0, 0, 1});
+        visited[0][0] = true;
         
         while(!q.isEmpty()) {
             int[] pol = q.poll();
-            int x = pol[0];
-            int y = pol[1];
             
-            if(x == n-1 && y == m-1) return distance[x][y];
+            
+            if(pol[0] == n-1 && pol[1] == m-1) {
+                count = Math.min(count, pol[2]);
+                return;
+            }
             
             for(int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+                int nx = pol[0] + dx[i];
+                int ny = pol[1] + dy[i];
                 
                 if(nx < 0 || ny < 0 || nx >= n || ny >= m) continue;
-                if(maps[nx][ny] == 0) continue;
-                if(distance[nx][ny] != 0) continue;
+                if(visited[nx][ny] || maps[nx][ny] == 0) continue;
                 
-                
-                distance[nx][ny] = distance[x][y] + 1;
-                q.offer(new int[]{nx, ny});
+                q.add(new int[]{nx, ny, pol[2] + 1});
+                visited[nx][ny] = true;
             }
         }
-
-        return -1;
+        
     }
 }
