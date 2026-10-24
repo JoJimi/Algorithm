@@ -2,18 +2,18 @@ import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        Arrays.sort(participant);
-        Arrays.sort(completion);
-        
-        String str = "";
-        for(int i = 0; i < completion.length; i++) {
-            if(!participant[i].equals(completion[i])) {
-                str = participant[i];
-                break;
-            }
+        HashMap<String, Integer> map = new HashMap<>();
+        for(String p: participant) {
+            map.put(p, map.getOrDefault(p, 0) + 1);
         }
-        if("".equals(str)) return participant[participant.length - 1];
-        else return str;
         
+        for(String c: completion){
+            map.put(c, map.get(c) - 1);
+        }
+        
+        for(String key: map.keySet()) {
+            if(map.get(key) > 0) return key;
+        }
+        return "";
     }
 }
